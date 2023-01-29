@@ -20,20 +20,18 @@ import 'package:shop_app/shared/network/remote/dio_helper.dart';
    void userLogin({
    required String email,
    required String password,
-     String? language,
-     String? token,
      Map<String,dynamic>? query,
  }){
      emit(ShopLoadingLoginState());
      DioHelper.postData(
          urlPath: LOGIN,
+       language:language,
+       query: query,
+       token: token,
          data: {
            'email':email,
            'password':password,
          },
-       language:language,
-       query: query,
-       token: token,
      ).then((value) {
        loginModel=ShopLoginModel.fromJson(value.data);
        emit(ShopSuccessesLoginState(loginModel));

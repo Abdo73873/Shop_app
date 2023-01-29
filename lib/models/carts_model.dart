@@ -44,7 +44,7 @@ class Product {
   String? image;
   late String name;
   String? description;
-
+  List<String>? images=[];
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];
@@ -53,5 +53,6 @@ class Product {
     image = json['image'];
     name = json['name'];
     description = json['description'];
+    images = json['images'].cast<String>();
   }
 }

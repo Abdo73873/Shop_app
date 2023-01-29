@@ -60,7 +60,7 @@ class Product {
   String? image;
   late String name;
   String? description;
-
+  List<String>? images=[];
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];

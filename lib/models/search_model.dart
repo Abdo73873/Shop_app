@@ -30,7 +30,7 @@ class Data {
   String? image;
   late String name;
   String? description;
-
+   List<String>? images=[];
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -38,5 +38,6 @@ class Data {
     image = json['image'];
     name = json['name'];
     description = json['description'];
+    images = json['images'].cast<String>();
   }
 }

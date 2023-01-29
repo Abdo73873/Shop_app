@@ -7,7 +7,8 @@ import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class ProductDetails  extends StatefulWidget {
-   int? id;
+
+  int? id;
   String? image;
   String? name;
   dynamic price;
@@ -16,7 +17,7 @@ class ProductDetails  extends StatefulWidget {
   String? description;
    bool isSearch;
    bool? inCart;
-   List<String>? images;
+   List<String>? images=[];
   ProductDetails({
     this.id,
     this.name,
@@ -35,6 +36,11 @@ class ProductDetails  extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+
+
+
+
+
   var scaffoldKey=GlobalKey<ScaffoldState>();
     int currentImage=0;
   @override
@@ -46,161 +52,158 @@ class _ProductDetailsState extends State<ProductDetails> {
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.white,
-                    child: Column(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    if(widget.images!.isNotEmpty)
+                    CarouselSlider(
+                      items:List.generate(
+                          widget.images!.length,
+                              (index) => Image(image: NetworkImage(widget.images![index]),),
+                      ) ,
+                      options: CarouselOptions(
+                        scrollDirection: Axis.horizontal,
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        height: 300.0,
+                        enableInfiniteScroll: false,
+                        scrollPhysics: BouncingScrollPhysics(),
+                        enlargeCenterPage: true,
+                        onPageChanged: (index,reason){
+                          setState(() {
+                            currentImage=index;
+                          });
+                        },
+                      ),
+                    ),
+                    if(widget.images!.isNotEmpty)
+                      AnimatedSmoothIndicator(
+                        activeIndex:currentImage,
+                      count: widget.images!.length,
+                      effect:const JumpingDotEffect(
+                        dotHeight: 13,
+                        dotWidth: 13,
+                        jumpScale: .7,
+                        verticalOffset: 20,
+                        activeDotColor: defaultColor,
+                        dotColor: secondaryColor,
+                      ),
+                    ),
+                    SizedBox(height: 20.0,),
+                    if(widget.images!.isEmpty)
+                    Stack(
+                      alignment: AlignmentDirectional.bottomStart,
                       children: [
-                        if(widget.images!=null)
-                        CarouselSlider(
-                          items:List.generate(
-                              widget.images!.length,
-                                  (index) => Image(image: NetworkImage(widget.images![index]),),
-                          ) ,
-                          options: CarouselOptions(
-                            scrollDirection: Axis.horizontal,
-                            viewportFraction: 1,
-                            initialPage: 0,
-                            height: 300.0,
-                            enableInfiniteScroll: false,
-                            scrollPhysics: BouncingScrollPhysics(),
-                            enlargeCenterPage: true,
-                            onPageChanged: (index,reason){
-                              setState(() {
-                                currentImage=index;
-                              });
-                            },
-                          ),
-                        ),
-                        AnimatedSmoothIndicator(
-                            activeIndex:currentImage,
-                          count: widget.images!.length,
-                          effect:const JumpingDotEffect(
-                            dotHeight: 13,
-                            dotWidth: 13,
-                            jumpScale: .7,
-                            verticalOffset: 20,
-                            activeDotColor: defaultColor,
-                            dotColor: secondaryColor,
-                          ),
-                        ),
-                        SizedBox(height: 20.0,),
-                        if(widget.images!.isEmpty)
-                        Stack(
-                          alignment: AlignmentDirectional.bottomStart,
-                          children: [
-                            if(!widget.isSearch)
-                              if (widget.discount != 0)
-                              Container(
-                                color: Colors.red,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 5.0,
-                                ),
-                                child: Text(
-                                  'Discount',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    backgroundColor: Colors.red,
-                                    fontSize: 16.0,
-                                  ),
-                                ),
+                        Image(image: NetworkImage('${widget.image}'),),
+                        SizedBox(height: 10.0,),
+                        if(!widget.isSearch)
+                          if (widget.discount != 0)
+                          Container(
+                            color: Colors.red,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 5.0,
+                            ),
+                            child: Text(
+                              'Discount',
+                              style: TextStyle(
+                                color: Colors.white,
+                                backgroundColor: Colors.red,
+                                fontSize: 16.0,
                               ),
-                            if(!widget.isSearch)
-                              if (widget.discount != 0)
-                              Positioned(
-                                top: 5.0,
-                                left: 5.0,
-                                child: CircleAvatar(
-                                  radius: 30.0,
-                                  backgroundColor: defaultColor,
-                                  child: Text(
-                                    '${widget.discount}%\nSale',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                            ),
+                          ),
+                        if(!widget.isSearch)
+                          if (widget.discount != 0)
+                          Positioned(
+                            top: 5.0,
+                            left: 5.0,
+                            child: CircleAvatar(
+                              radius: 30.0,
+                              backgroundColor: defaultColor,
+                              child: Text(
+                                '${widget.discount}%\nSale',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
                                 ),
-                              )
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Column(
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            '${widget.name}',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              height: 1.1,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Row(
                             children: [
                               Text(
-                                '${widget.name}',
+                                '${widget.price.round()} LE',
                                 style: TextStyle(
-                                  fontSize: 20.0,
-                                  height: 1.1,
+                                  color: defaultColor,
+                                  fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Row(
-                                children: [
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              if(!widget.isSearch)
+                                if (widget.discount != 0)
                                   Text(
-                                    '${widget.price.round()} LE',
-                                    style: TextStyle(
-                                      color: defaultColor,
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  '${widget.oldPrice.round()} LE',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.0,
+                                    decoration: TextDecoration.lineThrough,
                                   ),
-                                  SizedBox(
-                                    width: 5.0,
+                                ),
+                              Spacer(),
+                              if(!widget.isSearch)
+                              IconButton(
+                                onPressed: () {
+                                  ShopCubit.get(context).changeFavorite(widget.id!);
+                                },
+                                icon: CircleAvatar(
+                                  radius: 25.0,
+                                  backgroundColor:
+                                  ShopCubit.get(context).favorites![widget.id]!
+                                      ? Colors.red
+                                      : Colors.grey[400],
+                                  child: Icon(
+                                    Icons.favorite_border,
+                                    color: Colors.white,
                                   ),
-                                  if(!widget.isSearch)
-                                    if (widget.discount != 0)
-                                      Text(
-                                      '${widget.oldPrice.round()} LE',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.0,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                  Spacer(),
-                                  if(!widget.isSearch)
-                                  IconButton(
-                                    onPressed: () {
-                                      ShopCubit.get(context).changeFavorite(widget.id!);
-                                    },
-                                    icon: CircleAvatar(
-                                      radius: 25.0,
-                                      backgroundColor:
-                                      ShopCubit.get(context).favorites![widget.id]!
-                                          ? Colors.red
-                                          : Colors.grey[400],
-                                      child: Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    iconSize: 20.0,
-                                  ),
-                                ],
+                                ),
+                                iconSize: 20.0,
                               ),
                             ],
                           ),
-                        ),
-                        Text(
-                          '${widget.description}',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            height: 1.4,
-
-                          ),
-                          textDirection:language=='ar'?TextDirection.rtl:TextDirection.ltr,
-                        ),
-
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                    Text(
+                      '${widget.description}',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        height: 1.4,
 
-                ],
+                      ),
+                      textDirection:language=='ar'?TextDirection.rtl:TextDirection.ltr,
+                    ),
 
+                  ],
+                ),
               ),
             ),
           ),

@@ -156,6 +156,7 @@ Widget buildProductItem(
       description: model.description,
       discount: model.discount,
       image: model.image,
+      images: model.images,
 
     ),);
   },
