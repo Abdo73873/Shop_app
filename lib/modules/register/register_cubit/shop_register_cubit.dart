@@ -22,7 +22,6 @@ import 'package:shop_app/shared/network/remote/dio_helper.dart';
    required String password,
    required String phone,
     String? image,
-     String? language,
      Map<String,dynamic>? query,
  }){
      emit(ShopLoadingRegisterState());
