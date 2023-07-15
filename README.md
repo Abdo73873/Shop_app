@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # shop_app
 
 A new Flutter project.
@@ -18,4 +17,3 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 =======
 # Shop_app
->>>>>>> 97af3c7a77092171913144323a03d07805076fdd
